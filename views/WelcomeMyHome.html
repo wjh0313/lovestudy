@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            text-align: center;
+            background-color: #999;
+        }
+
+        .header {
+            margin-top: 100px;
+        }
+
+        .center {
+
+            margin-top: 50px;
+        }
+
+        .lin {
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 5px 95px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 50px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h3 class="wel"></h3>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a id="showhistory" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                    查看他（她）的笔记
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div id="history">
+
+                </div>
+                <ul class="pagination">
+                    <!-- <li><a href="#">&laquo;</a></li> -->
+                    <!-- <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li> -->
+                    <!-- <li><a href="#">&raquo;</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <input type="button" class="btn btn-success" name="Submit" onclick="javascript:history.back(-1);" value="返回我的笔记主页">
+    <!-- <script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script> -->
+    <script>
+        $(function () { $('#collapseThree').collapse('hide') });
+        $(function () {
+            var loc = location.href;
+            var n1 = loc.length;//地址的总长度s
+            // console.log(loc);
+            var n2 = loc.indexOf("=");//取得=号的位置
+            var id = decodeURI(loc.substr(n2 + 1, n1 - n2));//从=号后面的内容
+            if (id.length > 20) {
+                id = 'xxx';
+            }
+            $('.wel').html('欢迎来到' + id + '的笔记主页');
+
+            $('#showhistory').click(function () {
+
+                $.ajax({
+                    url: "/showHistory",
+                    type: "POST",
+                    data: {
+                        username: id
+                    },
+                    success: function (res) {
+                        let lowcon = 1;
+                        create();
+                        $('.pagination').on('click', 'a', function () {
+                            lowcon = +this.innerHTML;
+
+                            // console.log(res);
+                            // console.log(lowcon);
+                            create();
+                        })
+                        function create() {
+                            $('#history').empty();
+                            $('.pagination').empty();
+                            let cmp1 = res.split('\"');
+                            let cmp = cmp1.reverse();
+                            let cmp2 = cmp.filter(function (x) {
+                                if (x.length <= 2) {
+                                    return null;
+                                } else {
+                                    return x;
+                                }
+                            });
+                            let con = 0;
+                            for (const j of cmp2) {
+                                if (j == 'time') {
+                                    con++;
+                                }
+
+                            }
+                            let licon = Math.ceil(con / 3);
+                            // console.log(licon);
+                            for (let i = 1; i < licon + 1; i++) {
+                                let li = document.createElement('li');
+                                let a = document.createElement('a');
+                                a.innerHTML = i;
+                                if (i == lowcon) {
+                                    li.className = 'active';
+                                }
+                                let pagination = document.querySelector('.pagination');
+                                li.appendChild(a);
+                                pagination.appendChild(li);
+
+                            }
+
+                            for (let i = 0; i < con; i++) {
+                                let p = document.createElement('p');
+                                let arar = document.createElement('textarea');
+                                let history = document.querySelector('#history');
+                                p.id = 'p' + i;
+                                p.innerHTML = cmp2[i * 5 + 2];
+                                arar.id = 'arar' + i;
+                                arar.className = 'form-control';
+                                arar.value = cmp2[i * 5];
+                                arar.style.marginBottom = 40 + 'px';
+                                if (i >= ((lowcon + ((lowcon - 1) * 2)) - 1) && i <= ((lowcon + ((lowcon - 1) * 2)) + 1)) {
+
+                                    history.appendChild(p);
+                                    history.appendChild(arar);
+                                }
+                            }
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
+        })
+    </script>
+</body>
+
+</html>

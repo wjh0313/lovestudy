@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #999;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .center {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .lin {
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 5px 95px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 80px;
+        }
+
+        p {
+            font-size: 30px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h3>我爱学习</h3>
+        <p>用户注册界面</p>
+    </div>
+    <div class="center">
+        <label for="zh">注册账号：</label><input type="text" id="zh" placeholder="你的账号,建议是你的名字"><br>
+        <label for="mm">注册密码：</label><input type="password" id="mm" placeholder="6位字符"><br>
+        <label for="qr">确认密码：</label><input type="password" id="qr" placeholder="请和注册密码一样"><br>
+        <div class="lin">
+            <button class="btn btn-success">确认提交<a href="#"></a></button><br>
+            <a href="/WelcomeInterface"><span class="glyphicon glyphicon-random"></span>&nbsp&nbsp点我返回登陆界面</a>
+            <!-- <a href="/WelcomeInterface">点我返回登陆界面</a> -->
+        </div>
+    </div>
+    <!-- <script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script> -->
+    <script>
+        $(function () {
+            $('.btn').click(function () {
+                var vall = $('#zh').val();
+                var vacc = $("#qr").val();
+                if($('#mm').val() == $('#qr').val() && vall.length>=2 && vacc.length>=6)
+                {
+                    $.ajax({
+                    url: "/register",
+                    type: "POST",
+                    data: {
+                        username: $("#zh").val(),
+                        password: $("#qr").val()
+                    },
+                    success: function (res) {
+                        alert(res);
+                        // console.log(res);
+                        
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+                }else{
+                    alert('请重新操作');
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

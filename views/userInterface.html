@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            text-align: center;
+            background-color: #999;
+        }
+
+        h3 {
+
+            font-size: 30px;
+        }
+
+        a:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h3 class="wel"></h3>
+    </div>
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        修改密码
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <label for="changemm">新的密码：</label><input type="password" id="changemm"><br>
+                    <label for="changemms">确认密码：</label><input type="password" id="changemms"><br>
+                    <button id='chanbtn' class="btn btn-primary">确认修改</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        写笔记
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="name">文本框</label>
+                            <textarea class="form-control" id="thetext" rows="3"></textarea>
+                        </div>
+                    </form>
+                    <button id="textbtns" class="btn btn-success">确认信息提交</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a id="showhistory" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                        查看和修改历史笔记
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div id="history">
+                        <!-- <span id="insert"></span> -->
+                    </div>
+                    <ul class="pagination">
+                        <!-- <li><a href="#">&laquo;</a></li> -->
+                        <!-- <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li> -->
+                        <!-- <li><a href="#">&raquo;</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a id="findstud" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                        查看我的同学们的学习情况（可以查看老师留的作业）
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div id="students">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a href="/game">笔记写累了？来局游戏吧</a>
+    </div>
+    <!-- <script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script> -->
+    <script>
+        $(function () { $('#collapseFour').collapse('hide') });
+        $(function () { $('#collapseTwo').collapse('hide') });
+        $(function () { $('#collapseThree').collapse('hide') });
+        $(function () { $('#collapseOne').collapse('hide') });
+        $(function () {
+            function getRealPath() {
+                //获取当前网址，如： http://localhost:8083/myproj/view/my.jsp
+                var curWwwPath = window.document.location.href;
+                //获取主机地址之后的目录，如： myproj/view/my.jsp
+                var pathName = window.document.location.pathname;
+                var pos = curWwwPath.indexOf(pathName);
+                //获取主机地址，如： http://localhost:8083
+                var localhostPaht = curWwwPath.substring(0, pos);
+                //获取带”/”的项目名，如：/myproj
+                var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+
+                //得到了 http://localhost:8083/myproj
+                var realPath = localhostPaht + projectName;
+                return realPath + '/WelcomeMyHome';
+            }
+            var loc = location.href;
+            var n1 = loc.length;//地址的总长度s
+            // console.log(loc);
+            var n2 = loc.indexOf("=");//取得=号的位置
+            var id = decodeURI(loc.substr(n2 + 1, n1 - n2));//从=号后面的内容
+            //获取当前时间
+            function currentTime() {
+                var d = new Date(), str = '';
+                str += d.getFullYear();
+                str += d.getMonth() + 1;
+                str += d.getDate();
+                str += d.getHours();
+                str += d.getMinutes();
+                str += d.getSeconds();
+                return str;
+            }
+            if (id.length > 20) {
+                id = 'xxx';
+            }
+            $('.wel').html('欢迎回来' + id);
+            //密码修改
+            $('#chanbtn').click(function () {
+                if ($('#changemm').val() == $('#changemms').val()) {
+                    $.ajax({
+                        url: "/change",
+                        type: "POST",
+                        data: {
+                            username: id,
+                            password: $("#changemm").val()
+                        },
+                        success: function (res) {
+                            alert(res);
+                            // console.log(res);
+
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                } else {
+                    alert('您的输入有误');
+                }
+            });
+            //提交笔记
+            $('#textbtns').click(function () {
+                if ($('#thetext').val().length >= 3 && $('#thetext').val().length <= 198 && $('#thetext').val().indexOf('\"') == -1) {
+                    $.ajax({
+                        url: "/transmission",
+                        type: "POST",
+                        data: {
+                            username: id,
+                            thetext: $('#thetext').val(),
+                            thetime: currentTime()
+                        },
+                        success: function (res) {
+                            alert(res);
+                            location.reload();
+                            // console.log(res);
+
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                } else if ($('#thetext').val().length >= 199 && $('#thetext').val().indexOf('\"') == -1) {
+                    alert('您输入的内容过多请小于200个字');
+                }
+                else if($('#thetext').val().indexOf('\"') != -1)
+                {
+                    alert('含有非法字符 " 请用中文 “ 代替');
+                }
+                else {
+                    alert('笔记内容过短，请输入3个字符以上');
+                }
+            });
+            //显示历史记录
+            $('#showhistory').click(function () {
+
+                $.ajax({
+                    url: "/showHistory",
+                    type: "POST",
+                    data: {
+                        username: id
+                    },
+                    success: function (res) {
+                        // console.log(typeof res);
+
+                        let lowcon = 1;
+                        create();
+                        $('.pagination').on('click', 'a', function () {
+                            lowcon = +this.innerHTML;
+
+                            // console.log(res);
+                            // console.log(lowcon);
+                            create();
+                        })
+                        function create() {
+                            // console.log(res);
+                            // console.log(lowcon);
+                            $('#history').empty();
+                            $('.pagination').empty();
+                            let cmp1 = res.split('\"');
+                            let cmp = cmp1.reverse();
+
+
+                            let cmp2 = cmp.filter(function (x) {
+                                if (x.length <= 2) {
+                                    return null;
+                                } else {
+                                    return x;
+                                }
+                            });
+                            console.log(cmp2);
+                            let con = 0;
+                            for (const j of cmp2) {
+                                if (j == 'time') {
+                                    con++;
+                                }
+
+                            }
+                            let licon = Math.ceil(con / 3);
+                            // console.log(licon);
+                            for (let i = 1; i < licon + 1; i++) {
+                                let li = document.createElement('li');
+                                let a = document.createElement('a');
+                                a.innerHTML = i;
+                                if (i == lowcon) {
+                                    li.className = 'active';
+                                }
+                                let pagination = document.querySelector('.pagination');
+                                li.appendChild(a);
+                                pagination.appendChild(li);
+
+                            }
+
+                            for (let i = 0; i < con; i++) {
+                                let p = document.createElement('p');
+                                let arar = document.createElement('textarea');
+                                let btn = document.createElement('button');
+                                let history = document.querySelector('#history');
+                                // let insert = document.querySelector('#insert');
+                                p.id = 'p' + i;
+                                p.innerHTML = cmp2[i * 5 + 2];
+                                arar.id = 'arar' + i;
+                                arar.className = 'form-control';
+                                arar.value = cmp2[i * 5];
+                                btn.id = 'btntest';
+                                btn.value = i;
+                                btn.className = 'btn btn-info';
+                                btn.innerHTML = '确认修改';
+                                btn.style.marginBottom = 40 + 'px';
+                                
+                                
+                                // console.log(((lowcon + ((lowcon - 1) * 2)) - 1));
+                                // console.log(((lowcon + ((lowcon - 1) * 2)) + 1));
+                                
+                                if (i >= ((lowcon + ((lowcon - 1) * 2)) - 1) && i <= ((lowcon + ((lowcon - 1) * 2)) + 1)) {
+
+                                    history.appendChild(p);
+                                    history.appendChild(arar);
+                                    history.appendChild(btn);
+                                }
+
+                            }
+                        }
+
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
+            //修改历史记录委托绑定
+            $('#history').on('click', '#btntest', function () {
+                let cmp = this.value;
+                let node1 = '#p' + cmp;
+                let node2 = '#arar' + cmp;
+                console.log(typeof $(node2).val().indexOf('\"'));
+                
+                if ($(node2).val().length != 0 && $(node2).val().length >= 3 && $(node2).val().length <= 198 && $(node2).val().indexOf('\"') == -1) {
+                    $.ajax({
+                        url: "/exchangeima",
+                        type: "POST",
+                        data: {
+                            username: id,
+                            thetext: $(node2).val(),
+                            thetime: $(node1).html()
+                        },
+                        success: function (res) {
+                            alert(res);
+                            location.reload();
+                            // console.log(res);
+
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                } else if ($(node2).val().length == 0 && $(node2).val().indexOf('\"') == -1) {
+                    $.ajax({
+                        url: "/delText",
+                        type: "POST",
+                        data: {
+                            username: id,
+                            thetext: $(node2).val(),
+                            thetime: $(node1).html()
+                        },
+                        success: function (res) {
+                            alert(res);
+                            location.reload();
+                            // console.log(res);
+
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                }
+                else if ($(node2).val().length >= 199 && $(node2).val().indexOf('\"') == -1) {
+                    alert('您修改的内容过多请小于200个字');
+                }
+                else if($(node2).val().indexOf('\"') != -1)
+                {
+                    alert('含有非法字符 " 请用中文 “ 代替');
+                }
+                else {
+                    alert('修改内容过短');
+                }
+
+            })
+            //查看其他同学
+            $('#findstud').click(function () {
+                $('#students').empty();
+                $.ajax({
+                    url: "/findstudents",
+                    type: "POST",
+                    data: {
+                    },
+                    success: function (res) {
+
+                        let cmp1 = res.split('\"');
+
+                        let cmp2 = cmp1.filter(function (x) {
+                            if (x.length < 2) {
+                                return null;
+                            } else {
+                                return x;
+                            }
+                        });
+                        console.log(cmp2);
+                        
+                        let con = 0;
+                        for (const j of cmp2) {
+                            if (j == 'name') {
+                                con++;
+                            }
+
+                        }
+                        for (let i = 0; i < con; i++) {
+                            let a = document.createElement('a');
+                            let students = document.querySelector('#students');
+                            a.className = 'ss' + i;
+                            a.innerHTML = cmp2[i * 3 +2 ];
+                            a.style.marginRight = 20 + 'px';
+                            a.href = '/WelcomeMyHome' + '#' + 'txt=' + encodeURI(cmp2[i * 3 +2 ]);
+                            students.appendChild(a);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+
+                    }
+                })
+
+            });
+        })
+    </script>
+</body>
+
+</html>

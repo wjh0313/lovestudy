@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body
+        {
+            text-align: center;
+            background-color: #999;
+        }
+        .header
+        {
+            margin-top: 100px;
+            text-align: center;
+        }
+        .btn
+        {
+            padding: 5px 95px;
+            margin-top: 10px;
+        }
+        .btn:hover{
+            cursor: pointer;
+        }
+        h3
+        {
+            text-align: center;
+            font-size: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>我爱学习</h3>
+    </div>
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseOne">
+                    关于我爱学习这款学习网页的简介
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    为了方便同学们在班级学习和记录笔记，特意制作了一款可以上传笔记和查看学习进度的一款学习网站
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseTwo">
+                    我爱学习如何正常使用
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body">
+                    首先进入登陆页面，点击注册账号，注册成功后即可登陆自己的账号，登陆到直接的主页面即可填写笔记，查看历史笔记，修改密码，查看作业，查看别人的学习进度等
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseThree">
+                    我爱学习的一些基本使用流程
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    使用方法很简单，注册用户时用户名最短是2位，密码至少是6位，进入用户界面可以直接修改密码，填写笔记必须要大于3个字符，修改笔记时如果想删除笔记可以直接把笔记清空提交刷新页面即可删除笔记，进入别人的学习页面不可修改他人的笔记信息。
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" 
+                    href="#collapseFour">
+                    作者忠告
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <div class="panel-body">
+                    本网站只可共大家学习使用，由于本人实力有限，其中存在诸多问题，还请各位多多指点 本人微信：13123733417
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+            <a href="/WelcomeInterface"><span class="glyphicon glyphicon-random"></span>&nbsp&nbsp点我进入登陆界面</a>
+        <!-- <a  href="/WelcomeInterface">点我进入登陆界面</a> -->
+    </div>
+    <script>
+    $(function () { $('#collapseFour').collapse('hide')});
+    $(function () { $('#collapseTwo').collapse('hide')});
+    $(function () { $('#collapseThree').collapse('hide')});
+    $(function () { $('#collapseOne').collapse('show')});
+    </script>
+</body>
+</html>

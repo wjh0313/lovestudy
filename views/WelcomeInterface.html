@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #999;
+        }
+
+        .header {
+            margin-top: 100px;
+        }
+
+        .center {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .lin {
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 5px 95px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+        }
+
+        h3 {
+            text-align: center;
+            font-size: 80px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        .move
+        {
+            margin-right: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h3>我爱学习</h3>
+    </div>
+    
+    <div class="center">
+        <label for="zh">账号：</label><input type="text" id="zh"><br>
+        <label for="mm">密码：</label><input type="password" id="mm"><br>
+        <div class="lin">
+            <a class="move" href="/RegistrationPage">注册账号</a>
+            <a href="/ForgetPassword">忘记密码</a>
+        </div>
+        <div>
+            <button class="btn btn-success">登陆<a href="#"></a></button>
+        </div>
+    </div>
+    <!-- <script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script> -->
+    <script>
+        $(function () {
+            
+            function getRealPath() {
+                //获取当前网址，如： http://localhost:8083/myproj/view/my.jsp
+                var curWwwPath = window.document.location.href;
+                //获取主机地址之后的目录，如： myproj/view/my.jsp
+                var pathName = window.document.location.pathname;
+                var pos = curWwwPath.indexOf(pathName);
+                //获取主机地址，如： http://localhost:8083
+                var localhostPaht = curWwwPath.substring(0, pos);
+                //获取带”/”的项目名，如：/myproj
+                var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+                //得到了 http://localhost:8083/myproj
+                var realPath = localhostPaht + projectName;
+                return realPath + '/userInterface';
+            }
+            var thehttp = getRealPath();
+            console.log(thehttp);
+            
+            // "./userInterface.html?"
+            $('.btn').click(function () {
+                if ($("#zh").val().length == 0) {
+                    return alert("请输入内容!");
+                }
+                if ($("#mm").val().length == 0) {
+                    return alert("请输入密码!");
+                }
+                $.ajax({
+                    url: "/login",
+                    type: "POST",
+                    data: {
+                        username: $("#zh").val(),
+                        password: $("#mm").val()
+                    },
+                    success: function (res) {
+                        alert(res);
+                        if (res == '登录成功!点击确认跳转到用户界面') {
+                            location.href = thehttp  +'#'+'txt='+encodeURI($("#zh").val());
+                            
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            });
+        })
+    </script>
+</body>
+
+</html>
